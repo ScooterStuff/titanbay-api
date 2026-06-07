@@ -24,9 +24,7 @@ export async function runMigrations(pool: Pool = getPool()): Promise<string[]> {
     .filter((f) => f.endsWith('.sql'))
     .sort((a, b) => a.localeCompare(b));
 
-  const { rows } = await pool.query<{ filename: string }>(
-    'SELECT filename FROM schema_migrations',
-  );
+  const { rows } = await pool.query<{ filename: string }>('SELECT filename FROM schema_migrations');
   const applied = new Set(rows.map((r) => r.filename));
 
   const newlyApplied: string[] = [];
