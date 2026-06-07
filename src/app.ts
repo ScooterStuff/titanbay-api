@@ -4,6 +4,7 @@ import { jsonBody } from './shared/json-body.js';
 import { requestLogger } from './shared/request-logger.js';
 import { fundsRouter } from './modules/funds/funds.routes.js';
 import { investorsRouter } from './modules/investors/investors.routes.js';
+import { investmentsRouter } from './modules/investments/investments.routes.js';
 
 /**
  * Build the Express app without starting a listener, so tests can import it and
@@ -23,7 +24,9 @@ export function buildApp(): Express {
   // Health check (handy for Docker / load balancers; not part of the 8 endpoints).
   app.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
 
+  // Investments are nested under /funds, so both routers mount at /funds.
   app.use('/funds', fundsRouter());
+  app.use('/funds', investmentsRouter());
   app.use('/investors', investorsRouter());
 
   app.use(notFoundHandler);
