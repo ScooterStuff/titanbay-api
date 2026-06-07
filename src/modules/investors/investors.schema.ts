@@ -13,10 +13,7 @@ const emailInput = z
   .string({ message: 'must be a string' })
   .transform((s) => s.trim().toLowerCase())
   .pipe(
-    z
-      .string()
-      .email('must be a valid email address')
-      .max(254, 'must be at most 254 characters'),
+    z.string().email('must be a valid email address').max(254, 'must be at most 254 characters'),
   );
 
 export const investorCreateSchema = z

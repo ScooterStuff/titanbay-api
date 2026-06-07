@@ -40,19 +40,27 @@ describe('Funds API', () => {
   });
 
   it('POST /funds bad status enum → 400', async () => {
-    const res = await request(app).post('/funds').send({ ...validFund, status: 'Open' });
+    const res = await request(app)
+      .post('/funds')
+      .send({ ...validFund, status: 'Open' });
     expect(res.status).toBe(400);
   });
 
   it('POST /funds negative target_size_usd → 400', async () => {
-    const res = await request(app).post('/funds').send({ ...validFund, target_size_usd: -1 });
+    const res = await request(app)
+      .post('/funds')
+      .send({ ...validFund, target_size_usd: -1 });
     expect(res.status).toBe(400);
   });
 
   it('POST /funds with id/created_at in body → ignored, server generates them', async () => {
     const res = await request(app)
       .post('/funds')
-      .send({ ...validFund, id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', created_at: '1999-01-01T00:00:00Z' });
+      .send({
+        ...validFund,
+        id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        created_at: '1999-01-01T00:00:00Z',
+      });
     expect(res.status).toBe(201);
     expect(res.body.id).not.toBe('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
     expect(res.body.created_at).not.toContain('1999');
@@ -88,9 +96,13 @@ describe('Funds API', () => {
     const id = created.body.id as string;
     const originalCreatedAt = created.body.created_at as string;
 
-    const res = await request(app)
-      .put('/funds')
-      .send({ id, name: 'Renamed Fund', vintage_year: 2024, target_size_usd: 300000000.0, status: 'Investing' });
+    const res = await request(app).put('/funds').send({
+      id,
+      name: 'Renamed Fund',
+      vintage_year: 2024,
+      target_size_usd: 300000000.0,
+      status: 'Investing',
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.name).toBe('Renamed Fund');
@@ -127,10 +139,7 @@ describe('Funds API', () => {
   });
 
   it('non-JSON content type on write → 415', async () => {
-    const res = await request(app)
-      .post('/funds')
-      .set('Content-Type', 'text/plain')
-      .send('hello');
+    const res = await request(app).post('/funds').set('Content-Type', 'text/plain').send('hello');
     expect(res.status).toBe(415);
   });
 });

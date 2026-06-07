@@ -7,7 +7,9 @@ const body = (json: string): unknown => parse(json);
 describe('investorCreateSchema', () => {
   it('accepts a valid investor and lowercases the email', () => {
     const r = investorCreateSchema.safeParse(
-      body('{"name":"CalPERS","investor_type":"Institution","email":"PrivateEquity@CalPERS.ca.gov"}'),
+      body(
+        '{"name":"CalPERS","investor_type":"Institution","email":"PrivateEquity@CalPERS.ca.gov"}',
+      ),
     );
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.email).toBe('privateequity@calpers.ca.gov');
@@ -22,8 +24,9 @@ describe('investorCreateSchema', () => {
 
   it('rejects an invalid email', () => {
     expect(
-      investorCreateSchema.safeParse(body('{"name":"X","investor_type":"Individual","email":"not-an-email"}'))
-        .success,
+      investorCreateSchema.safeParse(
+        body('{"name":"X","investor_type":"Individual","email":"not-an-email"}'),
+      ).success,
     ).toBe(false);
   });
 

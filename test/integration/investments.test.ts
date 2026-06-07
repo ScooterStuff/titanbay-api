@@ -10,14 +10,12 @@ const app = buildApp();
 const ABSENT_UUID = '00000000-0000-0000-0000-000000000000';
 
 async function createFund(): Promise<string> {
-  const res = await request(app)
-    .post('/funds')
-    .send({
-      name: 'Fund For Investments',
-      vintage_year: 2024,
-      target_size_usd: 100000000.0,
-      status: 'Investing',
-    });
+  const res = await request(app).post('/funds').send({
+    name: 'Fund For Investments',
+    vintage_year: 2024,
+    target_size_usd: 100000000.0,
+    status: 'Investing',
+  });
   return res.body.id as string;
 }
 
@@ -127,7 +125,11 @@ describe('Investments API', () => {
       const create = await request(app)
         .post(`/funds/${fundId}/investments`)
         .set('Content-Type', 'application/json')
-        .send('{"investor_id":"' + investorId + '","amount_usd":75000000.01,"investment_date":"2024-01-01"}');
+        .send(
+          '{"investor_id":"' +
+            investorId +
+            '","amount_usd":75000000.01,"investment_date":"2024-01-01"}',
+        );
       expect(create.status).toBe(201);
       expect(losslessBody(create).amount_usd?.toString()).toBe('75000000.01');
     });
@@ -137,7 +139,13 @@ describe('Investments API', () => {
       const create = await request(app)
         .post(`/funds/${fundId}/investments`)
         .set('Content-Type', 'application/json')
-        .send('{"investor_id":"' + investorId + '","amount_usd":' + big + ',"investment_date":"2024-01-01"}');
+        .send(
+          '{"investor_id":"' +
+            investorId +
+            '","amount_usd":' +
+            big +
+            ',"investment_date":"2024-01-01"}',
+        );
       expect(create.status).toBe(201);
       expect(losslessBody(create).amount_usd?.toString()).toBe(big);
 

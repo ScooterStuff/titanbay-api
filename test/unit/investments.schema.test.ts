@@ -49,7 +49,9 @@ describe('investmentCreateSchema', () => {
   it('rejects a stray fund_id (strict)', () => {
     expect(
       investmentCreateSchema.safeParse(
-        body(`{"investor_id":"${UUID}","amount_usd":1,"investment_date":"2024-01-01","fund_id":"${UUID}"}`),
+        body(
+          `{"investor_id":"${UUID}","amount_usd":1,"investment_date":"2024-01-01","fund_id":"${UUID}"}`,
+        ),
       ).success,
     ).toBe(false);
   });
