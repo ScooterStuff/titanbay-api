@@ -18,8 +18,7 @@
     "test": "vitest run",
     "test:unit": "vitest run test/unit",
     "test:int": "vitest run test/integration",
-    "test:watch": "vitest",
-    "seed:prod": "node dist/scripts/seed.js"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "decimal.js": "^10.4.3",

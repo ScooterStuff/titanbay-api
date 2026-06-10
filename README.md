@@ -1,8 +1,6 @@
 # Titanbay API — Funds, Investors & Investments
 
-![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)
-
-> Replace `OWNER/REPO` in the badge URL above once this is pushed to GitHub.
+![CI](https://github.com/ScooterStuff/titanbay-api/actions/workflows/ci.yml/badge.svg)
 
 A small RESTful API for a private-markets investment platform. It manages **funds**, **investors**, and the **investments** that connect them, exposing the **8 endpoints** required by the brief. Built with TypeScript, Express, Zod and `pg` over Postgres 16, with a strict layered architecture and money handled as exact decimals — never as a floating-point number.
 
@@ -51,9 +49,25 @@ npm run seed                    # optional demo data
 npm run dev                     # start with hot reload (or: npm run build && npm start)
 ```
 
+## Try the API
+
+Two ready-made ways to exercise every endpoint (and the error paths) once the stack is up:
+
+**Postman.** Import [`postman/Titanbay-API.postman_collection.json`](./postman/Titanbay-API.postman_collection.json), then either click through the requests top-to-bottom or use the Collection Runner. IDs are saved to collection variables between requests, so you never copy-paste UUIDs. Run from the CLI with Newman:
+
+```bash
+npx newman run postman/Titanbay-API.postman_collection.json
+```
+
+**PowerShell smoke script.** A single command that hits all 8 endpoints plus the 400/404/409/415/422 error paths, with green/red assertions:
+
+```powershell
+./scripts/smoke.ps1
+```
+
 ## API reference
 
-Base path `/`, content type `application/json`. The full contract (request/response bodies, exact field types) is in [`01_SPEC.md`](./01_SPEC.md).
+Base path `/`, content type `application/json`. Request and response bodies follow the brief; the table below is the canonical list of supported routes.
 
 | Method | Path                           | Description                              | Success |
 | ------ | ------------------------------ | ---------------------------------------- | ------- |

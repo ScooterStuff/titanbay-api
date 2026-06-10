@@ -31,14 +31,6 @@ export class InvestorsRepository {
     return rows;
   }
 
-  async findById(id: string): Promise<InvestorRow | null> {
-    const { rows } = await this.db.query<InvestorRow>(
-      `SELECT ${COLUMNS} FROM investors WHERE id = $1`,
-      [id],
-    );
-    return rows[0] ?? null;
-  }
-
   async create(input: InvestorWrite): Promise<InvestorRow> {
     const { rows } = await this.db.query<InvestorRow>(
       `INSERT INTO investors (name, investor_type, email)
